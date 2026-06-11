@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小游戏合集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 50%, #dfe6ed 100%);
+            color: #333;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.6rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #e94560, #f5af19);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: rgba(0,0,0,0.45);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .game-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0,0,0,0.1);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .game-thumb {
+            width: 100%;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 合并升级缩略图 */
+        .thumb-merge {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4e8f0 50%, #c8e0ea 100%);
+        }
+
+        .thumb-merge .mini-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            padding: 6px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+        }
+
+        .thumb-merge .mini-cell {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 1px solid rgba(0,0,0,0.06);
+            background: rgba(0,0,0,0.02);
+        }
+
+        .thumb-merge .mini-cell.l1 { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #1a1a2e; } /* 木 */
+        .thumb-merge .mini-cell.l2 { background: linear-gradient(135deg, #f83600, #fe8c00); color: #fff; }    /* 火 */
+        .thumb-merge .mini-cell.l3 { background: linear-gradient(135deg, #c79347, #f5deb3); color: #1a1a2e; } /* 土 */
+        .thumb-merge .mini-cell.l4 { background: linear-gradient(135deg, #c0c0c0, #ffffff); color: #1a1a2e; } /* 金 */
+        .thumb-merge .mini-cell.l5 { background: linear-gradient(135deg, #4facfe, #00f2fe); color: #fff; }    /* 水 */
+
+        .game-info {
+            padding: 18px 20px;
+        }
+
+        .game-info h3 {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .game-info p {
+            font-size: 0.85rem;
+            color: rgba(0,0,0,0.5);
+            line-height: 1.5;
+        }
+
+        .game-tag {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 3px 10px;
+            font-size: 0.72rem;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.04);
+            color: rgba(0,0,0,0.5);
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        /* 占位卡片 - 敬请期待 */
+        .game-card.coming-soon {
+            opacity: 0.45;
+            cursor: default;
+        }
+
+        .game-card.coming-soon:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: rgba(0,0,0,0.06);
+        }
+
+        /* 数独缩略图 */
+        .thumb-sudoku {
+            background: linear-gradient(135deg, #ede7f6 0%, #e8eaf6 50%, #e3f2fd 100%);
+        }
+
+        .thumb-sudoku .mini-sudoku {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            padding: 6px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+        }
+
+        .thumb-sudoku .mini-sudoku .s-cell {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .thumb-sudoku .mini-sudoku .s-cell.s-filled {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.08);
+        }
+
+        .thumb-sudoku .mini-sudoku .s-cell.s-empty {
+            color: transparent;
+        }
+
+        /* 合成星星缩略图 */
+        .thumb-stars {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 50%, #dfe6ed 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 背景小星点 */
+        .thumb-stars::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px),
+                radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px),
+                radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+            background-size: 40px 40px, 27px 27px, 55px 55px;
+            background-position: 5px 8px, 18px 22px, 30px 5px;
+        }
+
+        .thumb-stars .star-field {
+            position: relative;
+            width: 110px;
+            height: 90px;
+        }
+
+        .thumb-stars .star-field .s-item {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+
+        .thumb-stars .star-field .s1 {
+            width: 22px; height: 22px;
+            background: radial-gradient(circle at 35% 30%, #ffcece, #e63946);
+            top: 62px; left: 5px;
+        }
+        .thumb-stars .star-field .s2 {
+            width: 28px; height: 28px;
+            background: radial-gradient(circle at 35% 30%, #ffe8cc, #ff9f43);
+            top: 54px; left: 34px;
+        }
+        .thumb-stars .star-field .s3 {
+            width: 38px; height: 38px;
+            background: radial-gradient(circle at 35% 30%, #fffacc, #feca57);
+            top: 36px; left: 55px; font-size: 1.05rem;
+        }
+        .thumb-stars .star-field .s4 {
+            width: 22px; height: 22px;
+            background: radial-gradient(circle at 35% 30%, #e0f5ff, #0abde3);
+            top: 10px; left: 20px;
+        }
+        .thumb-stars .star-field .s5 {
+            width: 16px; height: 16px;
+            background: radial-gradient(circle at 35% 30%, #f0e0ff, #a55eea);
+            top: 8px; left: 68px;
+        }
+
+        /* 贪吃蛇缩略图 */
+        .thumb-snake {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 50%, #dfe6ed 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 背景网格线 */
+        .thumb-snake::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+            background-size: 18px 18px;
+        }
+
+        .thumb-snake .snake-preview {
+            position: relative;
+            width: 110px;
+            height: 88px;
+        }
+
+        .thumb-snake .snake-preview .snake-seg {
+            position: absolute;
+            border-radius: 3px;
+        }
+
+        /* 蛇头 */
+        .thumb-snake .snake-preview .seg1 {
+            width: 16px; height: 16px;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            top: 36px; left: 72px;
+            border-radius: 5px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        /* 蛇身 - 水平段 */
+        .thumb-snake .snake-preview .seg2 { width: 15px; height: 15px; background: #3de080; top: 36px; left: 55px; }
+        .thumb-snake .snake-preview .seg3 { width: 15px; height: 15px; background: #3dd87a; top: 36px; left: 38px; }
+        /* 转角 */
+        .thumb-snake .snake-preview .seg4 { width: 15px; height: 15px; background: #38ce72; top: 20px; left: 38px; border-radius: 3px 3px 0 3px; }
+        /* 竖向段 */
+        .thumb-snake .snake-preview .seg5 { width: 14px; height: 14px; background: #34c46a; top: 20px; left: 22px; }
+        .thumb-snake .snake-preview .seg6 { width: 13px; height: 13px; background: #2fb862; top: 20px; left: 7px; opacity: 0.75; }
+        .thumb-snake .snake-preview .snake-food {
+            position: absolute;
+            width: 14px; height: 14px;
+            background: radial-gradient(circle at 35% 30%, #ffb3b3, #ff4757);
+            border-radius: 50%;
+            top: 54px; left: 72px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+
+        .thumb-placeholder {
+            background: rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumb-placeholder span {
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>小游戏合集</h1>
+        <p>点击卡片开始游戏</p>
+    </div>
+
+    <div class="games-grid">
+        <!-- 合并升级 -->
+        <a class="game-card" href="games/merge.html">
+            <div class="game-thumb thumb-merge">
+                <div class="mini-board">
+                    <div class="mini-cell l1">&#127793;</div>
+                    <div class="mini-cell l2">&#128293;</div>
+                    <div class="mini-cell"></div>
+                    <div class="mini-cell l3">&#9968;&#65039;</div>
+                    <div class="mini-cell l1">&#127793;</div>
+                    <div class="mini-cell l4">&#9876;&#65039;</div>
+                    <div class="mini-cell"></div>
+                    <div class="mini-cell l5">&#128167;</div>
+                    <div class="mini-cell l2">&#128293;</div>
+                </div>
+            </div>
+            <div class="game-info">
+                <h3>合并升级</h3>
+                <p>五行相生，在4x4棋盘上合并元素，木生火、火生土、土生金、金生水！</p>
+                <span class="game-tag">益智策略</span>
+            </div>
+        </a>
+
+        <!-- 数独 -->
+        <a class="game-card" href="games/sudoku.html">
+            <div class="game-thumb thumb-sudoku">
+                <div class="mini-sudoku">
+                    <div class="s-cell">5</div>
+                    <div class="s-cell s-filled">3</div>
+                    <div class="s-cell s-empty">.</div>
+                    <div class="s-cell">7</div>
+                    <div class="s-cell s-empty">.</div>
+                    <div class="s-cell">9</div>
+                    <div class="s-cell s-filled">8</div>
+                    <div class="s-cell s-empty">.</div>
+                    <div class="s-cell">4</div>
+                    <div class="s-cell s-empty">.</div>
+                    <div class="s-cell s-filled">6</div>
+                    <div class="s-cell">1</div>
+                    <div class="s-cell s-filled">2</div>
+                    <div class="s-cell">8</div>
+                    <div class="s-cell s-empty">.</div>
+                    <div class="s-cell s-filled">5</div>
+                </div>
+            </div>
+            <div class="game-info">
+                <h3>数独</h3>
+                <p>经典9x9数独，支持三种难度和笔记模式</p>
+                <span class="game-tag">逻辑推理</span>
+            </div>
+        </a>
+
+        <!-- 合成星星 -->
+        <a class="game-card" href="games/stars.html">
+            <div class="game-thumb thumb-stars">
+                <div class="star-field">
+                    <div class="s-item s1">✦</div>
+                    <div class="s-item s2">★</div>
+                    <div class="s-item s3">⭐</div>
+                    <div class="s-item s4">✦</div>
+                    <div class="s-item s5">💫</div>
+                </div>
+            </div>
+            <div class="game-info">
+                <h3>合成星星</h3>
+                <p>相同星星碰撞合成更大的星星，挑战合成最大的太阳！</p>
+                <span class="game-tag">物理合成</span>
+            </div>
+        </a>
+
+        <!-- 贪吃蛇 -->
+        <a class="game-card" href="games/snake.html">
+            <div class="game-thumb thumb-snake">
+                <div class="snake-preview">
+                    <div class="snake-seg seg1"></div>
+                    <div class="snake-seg seg2"></div>
+                    <div class="snake-seg seg3"></div>
+                    <div class="snake-seg seg4"></div>
+                    <div class="snake-seg seg5"></div>
+                    <div class="snake-seg seg6"></div>
+                    <div class="snake-food"></div>
+                </div>
+            </div>
+            <div class="game-info">
+                <h3>贪吃蛇</h3>
+                <p>控制蛇吃掉食物不断成长，小心别撞到自己！</p>
+                <span class="game-tag">经典街机</span>
+            </div>
+        </a>
+
+                <!-- 更多游戏 -->
+        <div class="game-card coming-soon">
+            <div class="game-thumb thumb-placeholder">
+                <span>🎮</span>
+            </div>
+            <div class="game-info">
+                <h3>更多小游戏</h3>
+                <p>正在开发中，敬请期待…</p>
+                <span class="game-tag">即将上线</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

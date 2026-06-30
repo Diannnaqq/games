@@ -247,7 +247,7 @@
 
         /* 贪吃蛇缩略图 */
         .thumb-snake {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 50%, #dfe6ed 100%);
+            background: linear-gradient(135deg, #07111f 0%, #0b1c2f 56%, #111827 100%);
             position: relative;
             overflow: hidden;
         }
@@ -258,8 +258,9 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+                radial-gradient(circle at 75% 30%, rgba(255, 209, 102, 0.18), transparent 12%),
+                linear-gradient(rgba(54,243,255,0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(54,243,255,0.12) 1px, transparent 1px);
             background-size: 18px 18px;
         }
 
@@ -280,11 +281,11 @@
             background: linear-gradient(135deg, #43e97b, #38f9d7);
             top: 36px; left: 72px;
             border-radius: 5px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 0 14px rgba(56,249,215,0.8);
         }
         /* 蛇身 - 水平段 */
-        .thumb-snake .snake-preview .seg2 { width: 15px; height: 15px; background: #3de080; top: 36px; left: 55px; }
-        .thumb-snake .snake-preview .seg3 { width: 15px; height: 15px; background: #3dd87a; top: 36px; left: 38px; }
+        .thumb-snake .snake-preview .seg2 { width: 15px; height: 15px; background: #3de080; top: 36px; left: 55px; box-shadow: 0 0 10px rgba(61,224,128,0.55); }
+        .thumb-snake .snake-preview .seg3 { width: 15px; height: 15px; background: #3dd87a; top: 36px; left: 38px; box-shadow: 0 0 10px rgba(61,216,122,0.45); }
         /* 转角 */
         .thumb-snake .snake-preview .seg4 { width: 15px; height: 15px; background: #38ce72; top: 20px; left: 38px; border-radius: 3px 3px 0 3px; }
         /* 竖向段 */
@@ -296,8 +297,77 @@
             background: radial-gradient(circle at 35% 30%, #ffb3b3, #ff4757);
             border-radius: 50%;
             top: 54px; left: 72px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 0 16px rgba(255,71,87,0.8);
         }
+
+        /* 乱斗派对射手缩略图 */
+        .thumb-fps {
+            background: linear-gradient(135deg, #fff3d7 0%, #ffdcb3 54%, #ffd0dd 100%);
+        }
+
+        .thumb-fps .fps-preview {
+            position: relative;
+            width: 130px;
+            height: 96px;
+        }
+
+        .thumb-fps .counter {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 10px;
+            height: 18px;
+            border-radius: 4px;
+            background: #d69355;
+            box-shadow: 0 8px 0 rgba(146, 89, 46, 0.22);
+        }
+
+        .thumb-fps .cup {
+            position: absolute;
+            width: 26px;
+            height: 36px;
+            border-radius: 8px 8px 13px 13px;
+            background: #5ac5ff;
+            left: 24px;
+            top: 34px;
+            box-shadow: inset 0 5px 0 rgba(255,255,255,0.38);
+        }
+
+        .thumb-fps .cup::before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            left: 4px;
+            top: 6px;
+        }
+
+        .thumb-fps .rocket {
+            position: absolute;
+            right: 14px;
+            top: 42px;
+            width: 48px;
+            height: 16px;
+            border-radius: 999px;
+            background: #fff2cc;
+            border: 2px solid rgba(47,52,64,0.14);
+            transform: rotate(-12deg);
+        }
+
+        .thumb-fps .bubble {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 3px solid rgba(69, 183, 255, 0.72);
+            background: rgba(255,255,255,0.42);
+        }
+
+        .thumb-fps .b1 { left: 56px; top: 26px; }
+        .thumb-fps .b2 { left: 76px; top: 16px; width: 20px; height: 20px; }
+        .thumb-fps .b3 { left: 94px; top: 30px; width: 12px; height: 12px; }
 
         .thumb-placeholder {
             background: rgba(0,0,0,0.02);
@@ -403,12 +473,31 @@
             </div>
             <div class="game-info">
                 <h3>贪吃蛇</h3>
-                <p>控制蛇吃掉食物不断成长，小心别撞到自己！</p>
-                <span class="game-tag">经典街机</span>
+                <p>霓虹赛博风格，包含稀有食物、道具、连击、障碍和挑战模式。</p>
+                <span class="game-tag">霓虹街机</span>
             </div>
         </a>
 
-                <!-- 更多游戏 -->
+        <!-- 乱斗派对射手 -->
+        <a class="game-card" href="games/fps-arena.html">
+            <div class="game-thumb thumb-fps">
+                <div class="fps-preview">
+                    <div class="bubble b1"></div>
+                    <div class="bubble b2"></div>
+                    <div class="bubble b3"></div>
+                    <div class="cup"></div>
+                    <div class="rocket"></div>
+                    <div class="counter"></div>
+                </div>
+            </div>
+            <div class="game-info">
+                <h3>乱斗派对射手</h3>
+                <p>轻松搞笑的第一人称训练场，用泡泡炮和奶油火箭筒清空巨人厨房。</p>
+                <span class="game-tag">3D FPS Demo</span>
+            </div>
+        </a>
+
+        <!-- 更多游戏 -->
         <div class="game-card coming-soon">
             <div class="game-thumb thumb-placeholder">
                 <span>🎮</span>
